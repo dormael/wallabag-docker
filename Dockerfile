@@ -9,7 +9,7 @@ FROM alpine:3.17
 
 COPY --from=builder /go/bin/envsubst /usr/bin/envsubst
 
-ARG WALLABAG_VERSION=2.5.4
+ARG WALLABAG_VERSION=2.6.0
 
 RUN set -ex \
  && apk add --no-cache \
@@ -43,6 +43,7 @@ RUN set -ex \
       php81-xmlreader \
       php81-tidy \
       php81-intl \
+      php81-sodium \
       mariadb-client \
       postgresql14-client \
       rabbitmq-c \
@@ -62,7 +63,7 @@ RUN set -ex \
 COPY root /
 
 RUN set -ex \
- && curl -L -o /tmp/wallabag.tar.gz https://github.com/wallabag/wallabag/archive/$WALLABAG_VERSION.tar.gz \
+ && curl -L -o /tmp/wallabag.tar.gz https://github.com/dormael/wallabag/releases/download/$WALLABAG_VERSION/wallabag-${WALLABAG_VERSION}.tar.gz \
  && tar xvf /tmp/wallabag.tar.gz -C /tmp \
  && mkdir /var/www/wallabag \
  && mv /tmp/wallabag-*/* /var/www/wallabag/ \
